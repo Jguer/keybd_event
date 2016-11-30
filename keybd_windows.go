@@ -11,52 +11,57 @@ var procKeyBd = dll.NewProc("keybd_event")
 func (k *KeyBonding) Launching() error {
 	//key down
 	if k.hasALT {
-		downKey(_VK_ALT)
+		DownKey(_VK_ALT)
 	}
 	if k.hasSHIFT {
-		downKey(_VK_SHIFT)
+		DownKey(_VK_SHIFT)
 	}
 	if k.hasCTRL {
-		downKey(_VK_CTRL)
+		DownKey(_VK_CTRL)
 	}
 	if k.hasRSHIFT {
-		downKey(_VK_RSHIFT)
+		DownKey(_VK_RSHIFT)
 	}
 	if k.hasRCTRL {
-		downKey(_VK_RCONTROL)
+		DownKey(_VK_RCONTROL)
 	}
 	for _, key := range k.keys {
-		downKey(key)
+		DownKey(key)
 	}
 	//key up
 	if k.hasALT {
-		upKey(_VK_ALT)
+		UpKey(_VK_ALT)
 	}
 	if k.hasSHIFT {
-		upKey(_VK_SHIFT)
+		UpKey(_VK_SHIFT)
 	}
 	if k.hasCTRL {
-		upKey(_VK_CTRL)
+		UpKey(_VK_CTRL)
 	}
 	if k.hasRSHIFT {
-		upKey(_VK_RSHIFT)
+		UpKey(_VK_RSHIFT)
 	}
 	if k.hasRCTRL {
-		upKey(_VK_RCONTROL)
+		UpKey(_VK_RCONTROL)
 	}
 	for _, key := range k.keys {
-		upKey(key)
+		UpKey(key)
 	}
 	return nil
 }
-func downKey(key int) {
+func DownKey(key int) {
 	vkey := key + 0x80
 	procKeyBd.Call(uintptr(key), uintptr(vkey), 0, 0)
 }
-func upKey(key int) {
+func UpKey(key int) {
 	vkey := key + 0x80
 	procKeyBd.Call(uintptr(key), uintptr(vkey), _KEYEVENTF_KEYUP, 0)
 }
+
+func Sync() error {
+	return nil
+}
+
 func initKeyBD() error { return nil }
 
 const (
